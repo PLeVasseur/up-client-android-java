@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 import org.eclipse.uprotocol.v1.UStatus;
 
 /**
- * A parcelable wrapper for UStatus.
+ * A parcelable wrapper for {@link UStatus}.
  */
 public final class ParcelableUStatus extends ParcelableMessage<UStatus> {
 

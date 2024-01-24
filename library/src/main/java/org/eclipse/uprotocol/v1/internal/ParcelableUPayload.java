@@ -33,7 +33,7 @@ import org.eclipse.uprotocol.v1.UPayload;
 import org.eclipse.uprotocol.v1.UPayload.DataCase;
 
 /**
- * A parcelable wrapper for UPayload.
+ * A parcelable wrapper for {@link UPayload}.
  */
 public final class ParcelableUPayload extends ParcelableMessage<UPayload> {
 

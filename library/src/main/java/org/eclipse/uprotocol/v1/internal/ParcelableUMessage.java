@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 import org.eclipse.uprotocol.v1.UMessage;
 
 /**
- * A parcelable wrapper for UMessage.
+ * A parcelable wrapper for {@link UMessage}.
  */
 public final class ParcelableUMessage extends ParcelableMessage<UMessage> {
 

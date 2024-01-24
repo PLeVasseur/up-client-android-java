@@ -33,7 +33,7 @@ import androidx.annotation.NonNull;
 import org.eclipse.uprotocol.v1.UResource;
 
 /**
- * A parcelable wrapper for UResource.
+ * A parcelable wrapper for {@link UResource}.
  */
 public final class ParcelableUResource extends ParcelableMessage<UResource> {
 

@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 import org.eclipse.uprotocol.v1.UUID;
 
 /**
- * A parcelable wrapper for UUID.
+ * A parcelable wrapper for {@link UUID}.
  */
 public final class ParcelableUUID extends ParcelableMessage<UUID> {
 

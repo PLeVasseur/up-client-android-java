@@ -34,7 +34,7 @@ import org.eclipse.uprotocol.v1.UMessageType;
 import org.eclipse.uprotocol.v1.UPriority;
 
 /**
- * A parcelable wrapper for UAttributes.
+ * A parcelable wrapper for {@link UAttributes}.
  */
 public final class ParcelableUAttributes extends ParcelableMessage<UAttributes> {
     private static final int END_OF_FIELDS = 0;

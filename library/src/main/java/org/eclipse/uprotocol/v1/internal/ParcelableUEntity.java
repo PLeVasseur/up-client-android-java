@@ -32,7 +32,7 @@ import androidx.annotation.NonNull;
 import org.eclipse.uprotocol.v1.UEntity;
 
 /**
- * A parcelable wrapper for UEntity.
+ * A parcelable wrapper for {@link UEntity}.
  */
 public final class ParcelableUEntity extends ParcelableMessage<UEntity> {
 

@@ -30,7 +30,7 @@ import androidx.annotation.NonNull;
 import org.eclipse.uprotocol.v1.UUri;
 
 /**
- * A parcelable wrapper for UUri.
+ * A parcelable wrapper for {@link UUri}.
  */
 public final class ParcelableUUri extends ParcelableMessage<UUri> {
 

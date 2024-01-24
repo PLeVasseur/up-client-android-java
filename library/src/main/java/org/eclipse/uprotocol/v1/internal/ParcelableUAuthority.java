@@ -34,7 +34,7 @@ import com.google.protobuf.ByteString;
 import org.eclipse.uprotocol.v1.UAuthority;
 
 /**
- * A parcelable wrapper for UAuthority.
+ * A parcelable wrapper for {@link UAuthority}.
  */
 public final class ParcelableUAuthority extends ParcelableMessage<UAuthority> {
 
