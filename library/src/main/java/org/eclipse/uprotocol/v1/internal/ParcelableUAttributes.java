@@ -58,7 +58,7 @@ public final class ParcelableUAttributes extends ParcelableMessage<UAttributes> 
     }
 
     @Override
-    protected void writeMessage(@NonNull Parcel out, int flags) {
+    public void writeMessage(@NonNull Parcel out, int flags) {
         if (mMessage.hasId()) {
             out.writeInt(UAttributes.ID_FIELD_NUMBER);
             out.writeParcelable(new ParcelableUUID(mMessage.getId()), flags);

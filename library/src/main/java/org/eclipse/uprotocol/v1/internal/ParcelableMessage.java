@@ -63,7 +63,7 @@ public abstract class ParcelableMessage<T extends Message> implements Parcelable
 
     protected abstract void writeMessage(@NonNull Parcel out, int flags);
 
-    private @NonNull T readFromParcel(@NonNull Parcel in) {
+    public @NonNull T readFromParcel(@NonNull Parcel in) {
         final int start = in.dataPosition();
         final int size = in.readInt();
         final T message = readMessage(in);

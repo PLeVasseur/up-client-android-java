@@ -84,6 +84,7 @@ android {
 dependencies {
     implementation libs.androidx.appcompat
     implementation libs.up.java
+    implementation 'org.eclipse.uprotocol:up-java:1.5.7-SNAPSHOT'
 
     androidTestImplementation libs.androidx.espresso
     androidTestImplementation libs.androidx.junit

@@ -28,6 +28,8 @@ import static org.eclipse.uprotocol.transport.builder.UPayloadBuilder.packToAny;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import android.os.Parcel;
+
 import androidx.annotation.NonNull;
 
 import com.google.protobuf.Empty;
@@ -44,6 +46,7 @@ import org.eclipse.uprotocol.v1.UPriority;
 import org.eclipse.uprotocol.v1.UResource;
 import org.eclipse.uprotocol.v1.UStatus;
 import org.eclipse.uprotocol.v1.UUri;
+import org.eclipse.uprotocol.v1.internal.ParcelableUAttributes;
 
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
