@@ -22,5 +22,13 @@
         <meta-data
             android:name="uprotocol.entity.version"
             android:value="1" />
+
+        <!-- Add your service declaration here -->
+        <service android:name="org.eclipse.uprotocol.MyIUBusService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.action.BIND_MY_IUBUS_SERVICE" />
+            </intent-filter>
+        </service>
     </application>
 </manifest>
