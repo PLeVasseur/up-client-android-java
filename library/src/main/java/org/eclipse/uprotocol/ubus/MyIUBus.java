@@ -1,4 +1,4 @@
-package org.eclipse.uprotocol;
+package org.eclipse.uprotocol.ubus;
 
 import android.os.IBinder;
 import android.os.RemoteException;
