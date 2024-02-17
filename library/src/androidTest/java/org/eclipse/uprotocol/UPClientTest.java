@@ -23,6 +23,8 @@
  */
 package org.eclipse.uprotocol;
 
+import static android.content.Context.BIND_AUTO_CREATE;
+import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static junit.framework.TestCase.assertEquals;
 
 import static org.eclipse.uprotocol.common.util.UStatusUtils.STATUS_OK;
@@ -37,7 +39,14 @@ import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Binder;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -47,6 +56,8 @@ import com.google.protobuf.Int32Value;
 
 import org.eclipse.uprotocol.UPClient.ServiceLifecycleListener;
 import org.eclipse.uprotocol.common.UStatusException;
+import org.eclipse.uprotocol.core.ubus.IUBus;
+import org.eclipse.uprotocol.core.ubus.IUListener;
 import org.eclipse.uprotocol.core.usubscription.v3.CreateTopicRequest;
 import org.eclipse.uprotocol.core.usubscription.v3.SubscriberInfo;
 import org.eclipse.uprotocol.core.usubscription.v3.SubscriptionRequest;
@@ -57,11 +68,14 @@ import org.eclipse.uprotocol.rpc.CallOptions;
 import org.eclipse.uprotocol.rpc.URpcListener;
 import org.eclipse.uprotocol.transport.UListener;
 import org.eclipse.uprotocol.v1.UCode;
+import org.eclipse.uprotocol.v1.UEntity;
 import org.eclipse.uprotocol.v1.UMessage;
 import org.eclipse.uprotocol.v1.UMessageType;
 import org.eclipse.uprotocol.v1.UPayload;
 import org.eclipse.uprotocol.v1.UStatus;
 import org.eclipse.uprotocol.v1.UUri;
+import org.eclipse.uprotocol.v1.internal.ParcelableUEntity;
+import org.eclipse.uprotocol.v1.internal.ParcelableUMessage;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -69,6 +83,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 
+import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -152,6 +167,71 @@ public class UPClientTest extends TestBase {
                                 .build()))
                 .build()).toCompletableFuture();
         assertStatus(UCode.OK, getOrThrow(future, OPTIONS.timeout()));
+    }
+
+    // TODO: PELE -- Remove this test later
+    @Test
+    public void testUEntity() {
+        final String ACTION_BIND_UBUS = "uprotocol.action.BIND_UBUS";
+
+        Log.i("UPClientTest", "inside UStreamerManager connect()");
+        final Intent intent = new Intent(ACTION_BIND_UBUS);
+        String mServiceConfig = "org.eclipse.uprotocol.core";
+        intent.setPackage(mServiceConfig);
+        Log.d("UPClientTest", "intent: " + intent);
+
+        final IUListener.Stub mServiceListener = new IUListener.Stub() {
+
+            @Override
+            public void onReceive(ParcelableUMessage event) throws RemoteException {
+                Log.i("UPClientTest", "helloFromCallback");
+            }
+        };
+
+        ServiceConnection mServiceConnectionCallback = new ServiceConnection()  {
+
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                Log.i("UPClientTest", "inside mServiceConnectionCallback onServiceConnected()");
+
+                String packageName = "org.eclipse.uprotocol.core.ustreameR";
+                UEntity uentity = UEntity.newBuilder().setName("ustreamer_glue").setVersionMajor(1).build();
+                Log.d("UPClientTest", "uentity serialized size: " + uentity.getSerializedSize());
+                Binder clientToken = new Binder();
+                int flags = 0;
+                ParcelableUEntity parcelableUentity = new ParcelableUEntity(uentity);
+                byte[] uentityBytes = uentity.toByteArray();
+
+                Log.d("UPClientTest", "uentity size: " + uentityBytes.length);
+                Log.d("UPClientTest", "uentity bytes: " + Arrays.toString(uentityBytes));
+
+                final IUBus iubus = IUBus.Stub.asInterface(iBinder);
+                try {
+                    Log.i("UPClientTest", "trying registerClient");
+                    iubus.registerClient(packageName, parcelableUentity, clientToken, flags, mServiceListener);
+                } catch (RemoteException e) {
+                    Log.i("UPClientTest", "oops, didn't registerClient");
+                    throw new RuntimeException(e);
+                }
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+
+            }
+
+            @Override
+            public void onBindingDied(ComponentName name) {
+                ServiceConnection.super.onBindingDied(name);
+            }
+
+            @Override
+            public void onNullBinding(ComponentName name) {
+                ServiceConnection.super.onNullBinding(name);
+            }
+        };
+
+        getApplicationContext().bindService(intent, mServiceConnectionCallback, BIND_AUTO_CREATE);
     }
 
     @Test

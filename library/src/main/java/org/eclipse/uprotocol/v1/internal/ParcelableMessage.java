@@ -26,6 +26,7 @@ package org.eclipse.uprotocol.v1.internal;
 import android.os.BadParcelableException;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -51,15 +52,26 @@ public abstract class ParcelableMessage<T extends Message> implements Parcelable
     @Override
     public void writeToParcel(@NonNull Parcel out, int flags) {
         final byte[] data = mMessage.toByteArray();
+        Log.d("ParcelableMessage", "writeToParcel: before out.writeInt: data size: " + out.dataSize() + " data position: " + out.dataPosition());
         out.writeInt(data.length);
+        Log.d("ParcelableMessage", "writeToParcel: after out.writeInt: data size: " + out.dataSize() + " data position: " + out.dataPosition());
+        Log.d("ParcelableMessage", "writeToParcel: before out.writeByteArray: data size: " + out.dataSize() + " data position: " + out.dataPosition());
+        Log.d("ParcelableMessage", "size: " + data.length);
         out.writeByteArray(data);
+        Log.d("ParcelableMessage", "writeToParcel: after out.writeByteArray: data size: " + out.dataSize() + " data position: " + out.dataPosition());
     }
 
     private @NonNull T readFromParcel(@NonNull Parcel in) {
         try {
+            // TODO - PELE: Remove logging
+            Log.d("ParcelableMessage", "readFromParcel: before in.readInt: data size: " + in.dataSize() + " data position: " + in.dataPosition());
             final int size = in.readInt();
+            Log.d("ParcelableMessage", "readFromParcel: after in.readInt: data size: " + in.dataSize() + " data position: " + in.dataPosition());
             final byte[] data = new byte[size];
+            Log.d("ParcelableMessage", "size: " + size);
+            Log.d("ParcelableMessage", "readFromParcel: before in.readByteArray(data): data size: " + in.dataSize() + " data position: " + in.dataPosition());
             in.readByteArray(data);
+            Log.d("ParcelableMessage", "readFromParcel: after in.readByteArray(data): data size: " + in.dataSize() + " data position: " + in.dataPosition());
             return parse(data);
         } catch (Exception e) {
             throw new BadParcelableException(e.getMessage());
