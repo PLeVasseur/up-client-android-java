@@ -354,6 +354,7 @@ public final class UBusManager {
     private @NonNull UStatus bindServiceLocked() {
         UStatus status;
         try {
+            Log.d("UBusManager", "buildServiceIntent(): " + buildServiceIntent());
             mServiceBound = mContext.bindService(buildServiceIntent(), mServiceConnectionCallback, BIND_AUTO_CREATE);
             status = mServiceBound ? STATUS_OK : buildStatus(UCode.NOT_FOUND, "Service is not found");
         } catch (Exception e) {

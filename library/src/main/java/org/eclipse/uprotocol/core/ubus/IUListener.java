@@ -2,10 +2,13 @@
  * This file is auto-generated.  DO NOT MODIFY.
  */
 package org.eclipse.uprotocol.core.ubus;
+
+import android.util.Log;
+
 public interface IUListener extends android.os.IInterface
 {
   /** Default implementation for IUListener. */
-  public static class Default implements org.eclipse.uprotocol.core.ubus.IUListener
+  public static class Default implements IUListener
   {
     @Override public void onReceive(org.eclipse.uprotocol.v1.internal.ParcelableUMessage event) throws android.os.RemoteException
     {
@@ -16,7 +19,7 @@ public interface IUListener extends android.os.IInterface
     }
   }
   /** Local-side IPC implementation stub class. */
-  public static abstract class Stub extends android.os.Binder implements org.eclipse.uprotocol.core.ubus.IUListener
+  public static abstract class Stub extends android.os.Binder implements IUListener
   {
     /** Construct the stub at attach it to the interface. */
     public Stub()
@@ -27,16 +30,16 @@ public interface IUListener extends android.os.IInterface
      * Cast an IBinder object into an org.eclipse.uprotocol.core.ubus.IUListener interface,
      * generating a proxy if needed.
      */
-    public static org.eclipse.uprotocol.core.ubus.IUListener asInterface(android.os.IBinder obj)
+    public static IUListener asInterface(android.os.IBinder obj)
     {
       if ((obj==null)) {
         return null;
       }
       android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
-      if (((iin!=null)&&(iin instanceof org.eclipse.uprotocol.core.ubus.IUListener))) {
-        return ((org.eclipse.uprotocol.core.ubus.IUListener)iin);
+      if (((iin!=null)&&(iin instanceof IUListener))) {
+        return ((IUListener)iin);
       }
-      return new org.eclipse.uprotocol.core.ubus.IUListener.Stub.Proxy(obj);
+      return new Proxy(obj);
     }
     @Override public android.os.IBinder asBinder()
     {
@@ -44,7 +47,7 @@ public interface IUListener extends android.os.IInterface
     }
     @Override public boolean onTransact(int code, android.os.Parcel data, android.os.Parcel reply, int flags) throws android.os.RemoteException
     {
-      java.lang.String descriptor = DESCRIPTOR;
+      String descriptor = DESCRIPTOR;
       if (code >= android.os.IBinder.FIRST_CALL_TRANSACTION && code <= android.os.IBinder.LAST_CALL_TRANSACTION) {
         data.enforceInterface(descriptor);
       }
@@ -62,6 +65,8 @@ public interface IUListener extends android.os.IInterface
         {
           org.eclipse.uprotocol.v1.internal.ParcelableUMessage _arg0;
           _arg0 = _Parcel.readTypedObject(data, org.eclipse.uprotocol.v1.internal.ParcelableUMessage.CREATOR);
+          long receiveTime = System.nanoTime();
+          Log.d("IUListener", "Within IUListener, immediately after receive: " + receiveTime);
           this.onReceive(_arg0);
           break;
         }
@@ -72,7 +77,7 @@ public interface IUListener extends android.os.IInterface
       }
       return true;
     }
-    private static class Proxy implements org.eclipse.uprotocol.core.ubus.IUListener
+    private static class Proxy implements IUListener
     {
       private android.os.IBinder mRemote;
       Proxy(android.os.IBinder remote)
@@ -83,7 +88,7 @@ public interface IUListener extends android.os.IInterface
       {
         return mRemote;
       }
-      public java.lang.String getInterfaceDescriptor()
+      public String getInterfaceDescriptor()
       {
         return DESCRIPTOR;
       }
@@ -102,7 +107,7 @@ public interface IUListener extends android.os.IInterface
     }
     static final int TRANSACTION_onReceive = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
   }
-  public static final java.lang.String DESCRIPTOR = "org.eclipse.uprotocol.core.ubus.IUListener";
+  public static final String DESCRIPTOR = "org.eclipse.uprotocol.core.ubus.IUListener";
   public void onReceive(org.eclipse.uprotocol.v1.internal.ParcelableUMessage event) throws android.os.RemoteException;
   /** @hide */
   static class _Parcel {
