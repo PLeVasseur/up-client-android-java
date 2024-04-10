@@ -479,7 +479,10 @@ public final class UPClient implements UTransport, RpcServer, RpcClient {
      */
     @Override
     public @NonNull UStatus send(@NonNull UMessage message) {
-        return mUBusManager.send(message);
+        long publishTimestamp = System.nanoTime();
+        UStatus val = mUBusManager.send(message);
+        Log.d("UPClient", "beforePublish: " + publishTimestamp);
+        return val;
     }
 
     /**
